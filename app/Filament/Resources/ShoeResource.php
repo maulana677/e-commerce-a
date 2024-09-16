@@ -10,6 +10,7 @@ use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -92,10 +93,29 @@ class ShoeResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('category.name'),
+
+                Tables\Columns\ImageColumn::make('thumbnail'),
+
+                Tables\Columns\IconColumn::make('is_popular')
+                    ->boolean()
+                    ->trueColor('success')
+                    ->falseColor('danger')
+                    ->trueIcon('heroicon-o-check-circle')
+                    ->falseColor('heroicon-o-x-circle')
+                    ->label('popular')
             ])
             ->filters([
-                //
+                SelectFilter::make('category_id')
+                    ->label('category')
+                    ->relationship('category', 'name'),
+
+                SelectFilter::make('brand_id')
+                    ->label('brand')
+                    ->relationship('brand', 'name'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
