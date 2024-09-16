@@ -17,7 +17,7 @@ class Brand extends Model
         'logo',
     ];
 
-    public function shoess()
+    public function shoes()
     {
         return $this->hasMany(Shoe::class);
     }

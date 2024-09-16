@@ -6,6 +6,7 @@ use App\Filament\Resources\ShoeResource\Pages;
 use App\Filament\Resources\ShoeResource\RelationManagers;
 use App\Models\Shoe;
 use Filament\Forms;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -24,6 +25,66 @@ class ShoeResource extends Resource
         return $form
             ->schema([
                 //
+                Fieldset::make('Details')
+                    ->schema([
+                        //
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->maxLength(255),
+
+                        Forms\Components\TextInput::make('price')
+                            ->required()
+                            ->numeric()
+                            ->prefix('IDR'),
+
+                        Forms\Components\FileUpload::make('thumbnail')
+                            ->image()
+                            ->required(),
+
+                        Forms\Components\Repeater::make('photos')
+                            ->relationship('photos')
+                            ->schema([
+                                Forms\Components\FileUpload::make('photo')
+                                    ->required(),
+                            ]),
+
+                        Forms\Components\Repeater::make('sizes')
+                            ->relationship('sizes')
+                            ->schema([
+                                Forms\Components\TextInput::make('size')
+                                    ->required()
+                            ]),
+                    ]),
+
+                Fieldset::make('Additional')
+                    ->schema([
+                        Forms\Components\Textarea::make('about')
+                            ->required(),
+
+                        Forms\Components\Select::make('is_popular')
+                            ->options([
+                                true => 'Popular',
+                                false => 'Not Popular',
+                            ])
+                            ->required(),
+
+                        Forms\Components\Select::make('category_id')
+                            ->relationship('category', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->required(),
+
+                        Forms\Components\Select::make('brand_id')
+                            ->relationship('brand', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->required(),
+
+                        Forms\Components\TextInput::make('stock')
+                            ->required()
+                            ->numeric()
+                            ->prefix('Qty'),
+                    ]),
             ]);
     }
 
