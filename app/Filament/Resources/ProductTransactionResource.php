@@ -104,9 +104,9 @@ class ProductTransactionResource extends Resource
                                         ->afterStateUpdated(function ($state, callable $get, callable $set) {
                                             $subTotalAmount = $get('sub_total_amount');
                                             $promoCode = PromoCode::find($state);
-                                            $discont = $promoCode ? $promoCode->discont_amount : 0;
+                                            $discont = $promoCode ? $promoCode->discount_amount : 0;
 
-                                            $set('discont_amount', $discont);
+                                            $set('discount_amount', $discont);
 
                                             $grandTotalAmount = $subTotalAmount - $discont;
                                             $set('grand_total_amount', $grandTotalAmount);
@@ -125,7 +125,7 @@ class ProductTransactionResource extends Resource
                                         ->prefix('IDR'),
 
                                     Forms\Components\TextInput::make('discount_amount')
-                                        // ->readOnly()
+                                        ->readOnly()
                                         ->required()
                                         ->numeric()
                                         ->prefix('IDR'),
