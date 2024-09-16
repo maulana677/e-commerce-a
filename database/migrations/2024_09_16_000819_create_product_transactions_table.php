@@ -33,7 +33,7 @@ return new class extends Migration
             $table->boolean('is_paid');
 
             $table->foreignId('shoe_id')->constrained('shoes')->onDelete('cascade');
-            $table->foreignId('promo_code_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('promo_code_id')->nullable()->constrained('promo_codes')->onDelete('cascade');
 
             $table->softDeletes();
             $table->timestamps();

@@ -106,7 +106,7 @@ class ShoeResource extends Resource
                     ->falseColor('danger')
                     ->trueIcon('heroicon-o-check-circle')
                     ->falseColor('heroicon-o-x-circle')
-                    ->label('popular')
+                    ->label('Popular')
             ])
             ->filters([
                 SelectFilter::make('category_id')
